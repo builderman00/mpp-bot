@@ -1,0 +1,25 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/ws": "^1.1.1",
+    "@types/node": "^18.0.6",
+    "@vitalets/google-translate-api": "^9.2.0",
+    "axios": "^1.7.2",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "midi-player-js": "^2.0.16",
+    "mpp-client-net": "^1.2.0",
+    "node-fetch": "^3.2.6",
+    "smn-db": "^1.0.0",
+    "tmi.js": "^1.8.5"
+  }
+}

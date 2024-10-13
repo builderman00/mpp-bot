@@ -1,0 +1,19 @@
+[
+  {"id": "wood", "name": "wood", "cost": 5, "category": "item", "purpose": "none"},
+  {"id": "stone", "name": "stone", "cost": 10, "category": "item", "purpose": "none"},
+  {"id": "iron", "name": "iron", "cost": 20, "category": "item", "purpose": "none"},
+  {"id": "diamond", "name": "diamond", "cost": 50, "category": "item", "purpose": "none"},
+  {"id": "emerald", "name": "emerald", "cost": 100, "category": "item", "purpose": "none"},
+  {"id": "ruby", "name": "ruby", "cost": 200, "category": "item", "purpose": "none"},
+  {"id": "sapphire", "name": "sapphire", "cost": 500, "category": "item", "purpose": "none"},
+  {"id": "topaz", "name": "topaz", "cost": 1000, "category": "item", "purpose": "none"},
+  {"id": "amethyst", "name": "amethyst", "cost": 2000, "category": "item", "purpose": "none"},
+  {"id": "quartz", "name": "quartz", "cost": 5000, "category": "item", "purpose": "none"},
+  {"id": "obsidian", "name": "obsidian", "cost": 10000, "category": "item", "purpose": "none"},
+  {"id": "gold", "name": "gold", "cost": 20000, "category": "item", "purpose": "none"},
+  {"id": "silver", "name": "silver", "cost": 50000, "category": "item", "purpose": "none"},
+  {"id": "platinum", "name": "platinum", "cost": 100000, "category": "item", "purpose": "none"},
+  {"id": "titanium", "name": "titanium", "cost": 200000, "category": "item", "purpose": "none"},
+  {"id": "uranium", "name": "uranium", "cost": 500000, "category": "item", "purpose": "none"},
+  {"id": "netherite", "name": "netherite", "cost": 1000000, "category": "item", "purpose": "none"}
+]
