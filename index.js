@@ -275,15 +275,6 @@ client.on("a", async (msg) => {
       `Id: ${part._id} | Name: ${part.name} | Color: ${part.color} | Rank: ${ranks[part._id]?.rank ?? 0}`,
     );
   }
-  if (cmd === `${prefix}anim`) {
-    var validanims = ["circle", "dvd"];
-    if (!validanims.includes(input))
-      return say(
-        `${input.length == 0 ? "" : "Invalid animation. | "}Usage: ${prefix}anim <animation> | Animations: ${validanims.join(", ")} | x: ${cursor.x}, y: ${cursor.y}, anim: ${cursor.anim}`,
-      );
-    cursor.anim = input;
-    say(`Set cursor animation to ${input}`);
-  }
   if (cmd === `${prefix}work`) {
     say("You started working.");
     setTimeout(
@@ -291,7 +282,7 @@ client.on("a", async (msg) => {
         try {
           var user = db.data[msg.p._id] || defaultUser();
           var balance = user.balance || 0;
-          var amount = Math.floor(Math.random() * 1006);
+          var amount = Math.floor(Math.random() * 1000);
           user.balance = balance + amount;
           db.data[msg.p._id] = user;
           say(
@@ -306,93 +297,7 @@ client.on("a", async (msg) => {
       Math.floor(Math.random() * 6000) + 6000,
     );
   }
-  if (cmd === `${pprefix}`) {
-  }
-  if (cmd === `${prefix}download`) {
-    if (args.length < 2) {
-      say("Usage: .download <midi file URL> <midi name>");
-    } else {
-      const url = args[1]; // First argument is the URL
-      const midiName = args.slice(2).join(" "); // Combine all other arguments as the MIDI name
-      if (!midiName) {
-        say("You need to specify the name of the MIDI file.");
-        return;
-      }
-      say("Loading...");
-      try {
-        const response = await fetch(url);
-        const blob = await response.arrayBuffer().then((a) => Buffer.from(a));
-        let fileName = `${midiName}.mid`; // Use the provided MIDI name
-        let downloadCount = 1;
-        // Check if the file already exists
-        while (fs.existsSync(`./downloads/${fileName}`)) {
-          fileName = `${midiName}-${downloadCount}.mid`; // Append a number if the name already exists
-          downloadCount++;
-        }
-        fs.writeFileSync(`./downloads/${fileName}`, blob);
-        player.loadFile(`./downloads/${fileName}`);
-        player.play();
-        say(`Playing downloaded MIDI: ${fileName}`);
-      } catch (error) {
-        say(`Error downloading MIDI: ${error}`);
-      }
-    }
-  }
-  if (cmd === `${prefix}webinfo`) {
-    if (args.length <= 1) {
-      say("Usage: .webinfo <url>");
-    } else {
-      const url = args.slice(1).join(" ");
-      if (url.includes("youtube.com") || url.includes("youtu.be")) {
-        try {
-          // Fetch video information using youtube-dl
-          const response = await fetch(
-            `https://www.youtube.com/watch?v=${encodeURIComponent(url)}`,
-          );
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          const data = await response.json();
-
-          // Extract information
-          const title = data.title ? `Title: ${data.title}` : "Title: N/A";
-          const author = data.uploader
-            ? `Subscribe: ${data.uploader}`
-            : "Subscribe: N/A";
-          const likeCount =
-            data.like_count !== undefined
-              ? `Like: ${data.like_count}`
-              : "Like: N/A";
-          const viewCount =
-            data.view_count !== undefined
-              ? `Views: ${data.view_count}`
-              : "Views: N/A";
-          const publishedTime = data.upload_date
-            ? `Date: ${new Date(data.upload_date).toLocaleDateString()}`
-            : "Date: N/A";
-
-          // Output the information
-          say(
-            `Url: ${url} | ${author} | ${likeCount} | ${viewCount} | ${publishedTime} | ${title}`,
-          );
-        } catch (error) {
-          say(`Error getting web info: ${error.message}`);
-        }
-      } else {
-        say("Invalid URL. Please provide a valid YouTube link.");
-      }
-    }
-  }
-  if (cmd === `${prefix}bash`) {
-    if (rank < 6) return say("You are not allowed to use this command.");
-    try {
-      var output = await exec(input);
-      say(output);
-    } catch (error) {
-      say("Error: " + error);
-    }
-  }
-  if (cmd === `${prefix}give`) {
+  if (cmd === `${prefix}pay`) {
     if (args.length < 3 || isNaN(Number(args[2])))
       return say(`Usage: ${prefix}give (user_id) (amount)`);
     const userId = args[1];
@@ -551,7 +456,7 @@ client.on("a", async (msg) => {
     };
     say(`Your rank is: ${rankNames[rank]}`);
   }
-  if (cmd === `${prefix}play`) {
+  if (rank >= 1 && cmd === `${prefix}stop`) {
     if (player.isPlaying()) {
       return say("MIDI is currently playing!");
     }
@@ -871,5 +776,5 @@ discord.on("messageCreate", async (msg) => {
     discord: (m) => msg.reply(m).catch(() => {}),
   });
 });
-//discord.on('messageCreate', console.log)
-//discord.login(process.env.DISCORD);
+discord.on('messageCreate', console.log)
+discord.login(process.env.DISCORD);
