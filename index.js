@@ -96,12 +96,11 @@ client.on("a", async (msg) => {
       );
     } else {
       var commandcats = {
-        nice: ["report"],
         normal: ["help", "fun", "economy", "info"],
         midi: ["play", "stop"],
-        anim: ["anim", "follow", "unfollow"],
+        anim: ["follow", "unfollow"],
         mod: ["banlist"],
-        admin: ["unban", "kick"],
+        admin: ["unban", "kick", "change"],
         owner: ["kbcmds", "setcmds", "options"],
       };
 
@@ -141,7 +140,7 @@ client.on("a", async (msg) => {
 
   if (cmd === `${prefix}about`) {
     say(
-      `This bot made by: | @_Builderman_ | version: ${config.version} | Discord is: https://discord.gg/MKUP2FMtuX | Email: Builderman@musician.org | This bot is made in: 2024`,
+      `This bot created by: | ๖ۣۜBuilderman00 | version: ${config.version} | Discord is: https://discord.gg/MKUP2FMtuX | This bot is made in: 2024`,
     );
   }
 
@@ -153,7 +152,7 @@ client.on("a", async (msg) => {
 
   if (cmd === `${prefix}economy`) {
     say(
-      `Economy commands: ${prefix}invertory, ${prefix}balance, ${prefix}shop, ${prefix}buy, ${prefix}sell, ${prefix}pay, ${prefix}rank, ${prefix}work, ${prefix}firework,`,
+      `Economy commands: ${prefix}balance, ${prefix}shop, ${prefix}buy, ${prefix}sell, ${prefix}pay, ${prefix}rank, ${prefix}work, ${prefix}firework,`,
     );
   }
   if (cmd === `${prefix}balance`) {
@@ -275,15 +274,6 @@ client.on("a", async (msg) => {
       `Id: ${part._id} | Name: ${part.name} | Color: ${part.color} | Rank: ${ranks[part._id]?.rank ?? 0}`,
     );
   }
-  if (cmd === `${prefix}anim`) {
-    var validanims = ["circle", "dvd"];
-    if (!validanims.includes(input))
-      return say(
-        `${input.length == 0 ? "" : "Invalid animation. | "}Usage: ${prefix}anim <animation> | Animations: ${validanims.join(", ")} | x: ${cursor.x}, y: ${cursor.y}, anim: ${cursor.anim}`,
-      );
-    cursor.anim = input;
-    say(`Set cursor animation to ${input}`);
-  }
   if (cmd === `${prefix}work`) {
     say("You started working.");
     setTimeout(
@@ -291,7 +281,7 @@ client.on("a", async (msg) => {
         try {
           var user = db.data[msg.p._id] || defaultUser();
           var balance = user.balance || 0;
-          var amount = Math.floor(Math.random() * 1006);
+          var amount = Math.floor(Math.random() * 100);
           user.balance = balance + amount;
           db.data[msg.p._id] = user;
           say(
@@ -306,93 +296,7 @@ client.on("a", async (msg) => {
       Math.floor(Math.random() * 6000) + 6000,
     );
   }
-  if (cmd === `${pprefix}`) {
-  }
-  if (cmd === `${prefix}download`) {
-    if (args.length < 2) {
-      say("Usage: .download <midi file URL> <midi name>");
-    } else {
-      const url = args[1]; // First argument is the URL
-      const midiName = args.slice(2).join(" "); // Combine all other arguments as the MIDI name
-      if (!midiName) {
-        say("You need to specify the name of the MIDI file.");
-        return;
-      }
-      say("Loading...");
-      try {
-        const response = await fetch(url);
-        const blob = await response.arrayBuffer().then((a) => Buffer.from(a));
-        let fileName = `${midiName}.mid`; // Use the provided MIDI name
-        let downloadCount = 1;
-        // Check if the file already exists
-        while (fs.existsSync(`./downloads/${fileName}`)) {
-          fileName = `${midiName}-${downloadCount}.mid`; // Append a number if the name already exists
-          downloadCount++;
-        }
-        fs.writeFileSync(`./downloads/${fileName}`, blob);
-        player.loadFile(`./downloads/${fileName}`);
-        player.play();
-        say(`Playing downloaded MIDI: ${fileName}`);
-      } catch (error) {
-        say(`Error downloading MIDI: ${error}`);
-      }
-    }
-  }
-  if (cmd === `${prefix}webinfo`) {
-    if (args.length <= 1) {
-      say("Usage: .webinfo <url>");
-    } else {
-      const url = args.slice(1).join(" ");
-      if (url.includes("youtube.com") || url.includes("youtu.be")) {
-        try {
-          // Fetch video information using youtube-dl
-          const response = await fetch(
-            `https://www.youtube.com/watch?v=${encodeURIComponent(url)}`,
-          );
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          const data = await response.json();
-
-          // Extract information
-          const title = data.title ? `Title: ${data.title}` : "Title: N/A";
-          const author = data.uploader
-            ? `Subscribe: ${data.uploader}`
-            : "Subscribe: N/A";
-          const likeCount =
-            data.like_count !== undefined
-              ? `Like: ${data.like_count}`
-              : "Like: N/A";
-          const viewCount =
-            data.view_count !== undefined
-              ? `Views: ${data.view_count}`
-              : "Views: N/A";
-          const publishedTime = data.upload_date
-            ? `Date: ${new Date(data.upload_date).toLocaleDateString()}`
-            : "Date: N/A";
-
-          // Output the information
-          say(
-            `Url: ${url} | ${author} | ${likeCount} | ${viewCount} | ${publishedTime} | ${title}`,
-          );
-        } catch (error) {
-          say(`Error getting web info: ${error.message}`);
-        }
-      } else {
-        say("Invalid URL. Please provide a valid YouTube link.");
-      }
-    }
-  }
-  if (cmd === `${prefix}bash`) {
-    if (rank < 6) return say("You are not allowed to use this command.");
-    try {
-      var output = await exec(input);
-      say(output);
-    } catch (error) {
-      say("Error: " + error);
-    }
-  }
-  if (cmd === `${prefix}give`) {
+  if (cmd === `${prefix}pay`) {
     if (args.length < 3 || isNaN(Number(args[2])))
       return say(`Usage: ${prefix}give (user_id) (amount)`);
     const userId = args[1];
@@ -494,47 +398,6 @@ client.on("a", async (msg) => {
       items: {},
     };
   }
-  if (rank >= 5 && cmd === `${prefix}rank-admin`) {
-    say(`Admins: ${Object.keys(rank).filter((a) => ranks[a].rank >= 3)}`);
-  }
-  if (rank >= 5 && cmd === `${prefix}rank-owner`) {
-    say(`Owners: ${Object.keys(rank).filter((a) => ranks[a].rank >= 5)}`);
-  }
-  if (rank >= 1 && cmd === `${prefix}report`) {
-    if (args.length < 3) {
-      // Ensure there are at least 3 arguments (command, user_id, and reason)
-      say(`Usage: ${prefix}report <user_id> <reason>`);
-      return;
-    }
-
-    const userId = args[1];
-    const reason = args.slice(2).join(" ");
-
-    if (!client.ppl[userId]) {
-      // Check if the user exists in the client.ppl object
-      say("User not found.");
-      return;
-    }
-
-    const reportMessage = `User ID: ${userId}\nReason: ${reason}\nTimestamp: ${new Date().toISOString()}\n\n`;
-
-    // Define the path to the reports file
-    const reportsFilePath = path.join(__dirname, "reports.txt");
-
-    // Append the report to the file
-    fs.appendFile(reportsFilePath, reportMessage, (err) => {
-      if (err) {
-        say("Failed to write the report.");
-        console.error(err); // Log the error for debugging
-        return;
-      }
-
-      say("Report has been logged.");
-    });
-  } else if (rank === 0 && cmd === `${prefix}report`) {
-    say(
-      "You don't have permission to use this command. You need a higher rank.",
-    );
     return;
   }
   if (cmd === `${prefix}rank`) {
@@ -551,7 +414,7 @@ client.on("a", async (msg) => {
     };
     say(`Your rank is: ${rankNames[rank]}`);
   }
-  if (cmd === `${prefix}play`) {
+  if (rank >= 1 && cmd === `${prefix}play`) {
     if (player.isPlaying()) {
       return say("MIDI is currently playing!");
     }
@@ -723,7 +586,7 @@ client.on("a", async (msg) => {
       "Owner: 7 | Head admin: 6 | Admin: 5 | Mod: 4 | Trial mod: 3 | Meow: 2 | Vote: 1 | User: 0 | Banned: -1",
     );
   }
-  if (rank >= 5 && cmd === `${prefix}setprefix`) {
+  if (rank >= 6 && cmd === `${prefix}setprefix`) {
     if (args.length === 1) {
       say(`Usage: ${prefix}setprefix <new prefix>`);
     } else {
@@ -760,7 +623,7 @@ client.on("a", async (msg) => {
         .join(", ")}`,
     );
   }
-  if (rank >= 7 && cmd === `${prefix}setrank`) {
+  if (rank >= 6 && cmd === `${prefix}setrank`) {
     if (args.length == 1)
       return say(`Usage: ${prefix}setrank <user_id> <rank>`);
     if (!ranks[args[1]]) ranks[args[1]] = {};
@@ -768,13 +631,13 @@ client.on("a", async (msg) => {
     require("fs").writeFileSync("ranks.json", JSON.stringify(ranks));
     say(`Done`);
   }
-  if (rank >= 7 && cmd === `${prefix}kick`) {
+  if (rank >= 6 && cmd === `${prefix}kick`) {
     client.sendArray([
       { m: "kickban", _id: input, ms: 0 },
     ]);
     say(`Id ${player.id.banned} has been removed. reason: ${reason}.`);
   }
-  if (rank >= 7 && cmd === `${prefix}ban`) {
+  if (rank >= 6 && cmd === `${prefix}ban`) {
     client.sendArray([
       { m: "kickban", _id: input, ms: 100, reason: "Banned by bot" },
     ]);
@@ -795,7 +658,7 @@ client.on("a", async (msg) => {
     say(`Bot disconnected.`);
     client.stop();
   }
-  if (rank >= 7 && cmd === `${prefix}crown`) {
+  if (rank >= 6 && cmd === `${prefix}crown`) {
     client.sendArray([{ m: "chown", id: msg.p.id }]);
     say(
       client.isOwner() ? `${msg.p.name} Got a crown.` : `I dont have a crown.`,
@@ -871,5 +734,5 @@ discord.on("messageCreate", async (msg) => {
     discord: (m) => msg.reply(m).catch(() => {}),
   });
 });
-//discord.on('messageCreate', console.log)
-//discord.login(process.env.DISCORD);
+/discord.on('messageCreate', console.log)
+discord.login(process.env.DISCORD);
