@@ -282,7 +282,7 @@ client.on("a", async (msg) => {
         try {
           var user = db.data[msg.p._id] || defaultUser();
           var balance = user.balance || 0;
-          var amount = Math.floor(Math.random() * 1000);
+          var amount = Math.floor(Math.random() * 1006);
           user.balance = balance + amount;
           db.data[msg.p._id] = user;
           say(
@@ -296,6 +296,8 @@ client.on("a", async (msg) => {
       },
       Math.floor(Math.random() * 6000) + 6000,
     );
+  }
+  if (cmd === `${pprefix}`) {
   }
   if (cmd === `${prefix}pay`) {
     if (args.length < 3 || isNaN(Number(args[2])))
@@ -456,7 +458,7 @@ client.on("a", async (msg) => {
     };
     say(`Your rank is: ${rankNames[rank]}`);
   }
-  if (rank >= 1 && cmd === `${prefix}stop`) {
+  if (cmd === `${prefix}play`) {
     if (player.isPlaying()) {
       return say("MIDI is currently playing!");
     }
