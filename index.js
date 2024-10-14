@@ -776,5 +776,5 @@ discord.on("messageCreate", async (msg) => {
     discord: (m) => msg.reply(m).catch(() => {}),
   });
 });
-discord.on('messageCreate', console.log)
-discord.login(process.env.DISCORD);
+//discord.on('messageCreate', console.log)
+//discord.login(process.env.DISCORD);
