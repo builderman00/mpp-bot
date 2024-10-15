@@ -760,8 +760,9 @@ const rl = new (require("readline").Interface)({
 rl.on("line", client.say);
 client.on("dm", (msg) =>
   client.emit("a", { m: "dm", a: msg.a, p: msg.sender, t: msg.t }),
-);
-discord.once("ready", () => console.log(`Connected to discord!`));
+          )}
+)};
+/*discord.once("ready", () => console.log(`Connected to discord!`));
 discord.on("messageCreate", async (msg) => {
   //console.log(msg);
   if (msg.author.bot || msg.channel.id !== "1188877027902750828") return;
@@ -775,8 +776,7 @@ discord.on("messageCreate", async (msg) => {
       name: msg.author.tag,
     },
     t: Date.now(),
-    discord: (m) => msg.reply(m).catch(() => {}),
-  });
-});
+    discord: (m) => msg.reply(m).catch(() => {}),*/
+
 //discord.on('messageCreate', console.log)
 //discord.login(process.env.DISCORD);
