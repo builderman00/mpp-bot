@@ -323,15 +323,33 @@ client.on("a", async (msg) => {
     say(`You gave $${amount} to ${userId}`);
   }
   if (cmd === `${prefix}sell`) {
-    if (args.length == 1) return say(`Usage: ${prefix}sell <item_id>`);
-    var item = shopData.find((item) => item.id === args[1]);
+    // Check if the correct number of arguments is provided
+    if (args.length < 2) return say(`Usage: ${prefix}sell <item_id> <amount>`);
+
+    var itemId = args[1];
+    var amount = parseInt(args[2], 10) || 1; // Default to 1 if no amount is specified
+    var item = shopData.find((item) => item.id === itemId);
+
     if (!item) return say("Item not found.");
+    
     var user = db.data[msg.p._id] || defaultUser();
-    if (!user.items[item.id]) return say(`You don't own any ${item.name}.`);
-    user.items[item.id]--;
-    if (user.items[item.id] === 0) {
-      delete user.items[item.id];
+    
+    // Check if the user owns the item and enough quantity
+    if (!user.items[item.id] || user.items[item.id] < amount) {
+        return say(`You don't own enough ${item.name}(s).`);
     }
+
+    // Reduce the quantity of the item
+    user.items[item.id] -= amount;
+    if (user.items[item.id] === 0) {
+        delete user.items[item.id];
+    }
+
+    // Optionally, you can add logic to give the player currency or some benefit from selling
+    // e.g., user.currency += item.sellPrice * amount;
+
+    say(`You sold ${amount} ${item.name}(s).`);
+  }
     user.balance += Math.floor(item.cost / 2);
     db.data[msg.p._id] = user;
     say(`You sold ${item.name} for $${Math.floor(item.cost / 2)}.`);
