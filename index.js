@@ -4,7 +4,7 @@ server.listen(port, () => {
 });
 const fs = require("fs");
 const MPPClient = require("mpp-client-net").Client;
-const client = new MPPClient("wss://mppclone.com", process.env.TOKEN);
+const client = new MPPClient("wss://smnmpp.hri7566.info:8443", process.env.TOKEN);
 const config = require("./config.json");
 const shopData = require("./shop.json");
 const path = require("path");
