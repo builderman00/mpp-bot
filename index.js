@@ -7,7 +7,6 @@ const MPPClient = require("mpp-client-net").Client;
 const client = new MPPClient("wss://mppclone.com", process.env.TOKEN);
 const config = require("./config.json");
 const shopData = require("./shop.json");
-let botInGame = false;
 const path = require("path");
 const ai = require("./ai.js");
 const { Client, Events, GatewayIntentBits } = require("discord.js");
@@ -125,23 +124,6 @@ client.on("a", async (msg) => {
         */
     }
   }
-  if (rank >= 5 cmd === `${prefix}join`) {
-    if (!botInGame) {
-      botInGame = true;
-      say(`Bot has joined the server.`);
-    } else {
-      say(`Bot is already in the server.`);
-    }
-  }
-  if (rank >= 5 cmd === `${prefix}leave`) {
-    if (botInGame) {
-      botInGame = false;
-      say(`Bot has left the server.`);
-    } else {
-      say(`Bot is not in the server.`);
-    }
-  }
-
   if (cmd === `${pprefix}help`) {
     say("Coming soon");
   }
