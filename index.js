@@ -1,3 +1,7 @@
+const PORT = config.port;
+server.listen(port, () => {
+  console.log(`Port is done!`);
+});
 const fs = require("fs");
 const MPPClient = require("mpp-client-net").Client;
 const client = new MPPClient("wss://mppclone.com", process.env.TOKEN);
