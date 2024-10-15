@@ -1,10 +1,6 @@
-const PORT = config.port;
-server.listen(port, () => {
-  console.log(`Port is done!`);
-});
 const fs = require("fs");
 const MPPClient = require("mpp-client-net").Client;
-const client = new MPPClient("wss://smnmpp.hri7566.info:8443", process.env.TOKEN);
+const client = new MPPClient("wss://smnmpp.hri7566.info:8443/", config.TOKEN);
 const config = require("./config.json");
 const shopData = require("./shop.json");
 const path = require("path");
@@ -82,7 +78,7 @@ client.say = (message, reply_to) => {
   ]);
 };
 
-client.on("a", async (msg) => {
+client.on("a"), async (msg) => {
   let args = msg.a.split(" ");
   let cmd = args[0].toLowerCase();
   let input = msg.a.substr(cmd.length + 1).trim();
@@ -415,12 +411,12 @@ client.on("a", async (msg) => {
   }
 
   // Example of defaultUser function (update if necessary)
-  function defaultUser() {
+  /*function defaultUser() {
     return {
       balance: 0,
       items: {},
     };
-  }
+  }*/
   if (rank >= 5 && cmd === `${prefix}rank-admin`) {
     say(`Admins: ${Object.keys(rank).filter((a) => ranks[a].rank >= 3)}`);
   }
@@ -729,7 +725,7 @@ client.on("a", async (msg) => {
     );
   }
   console.log(`[${msg.p._id}] ${msg.p.name}: ${msg.a}`);
-});
+
   client.sendArray([
   {
       m: "+custom",
@@ -780,8 +776,7 @@ const rl = new (require("readline").Interface)({
 rl.on("line", client.say);
 client.on("dm", (msg) =>
   client.emit("a", { m: "dm", a: msg.a, p: msg.sender, t: msg.t }),
-          )}
-)};
+          );
 /*discord.once("ready", () => console.log(`Connected to discord!`));
 discord.on("messageCreate", async (msg) => {
   //console.log(msg);
