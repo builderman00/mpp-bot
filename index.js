@@ -96,7 +96,6 @@ client.on("a", async (msg) => {
       );
     } else {
       var commandcats = {
-        nice: ["report"],
         normal: ["help", "fun", "economy", "info"],
         midi: ["play", "stop"],
         anim: ["anim", "follow", "unfollow"],
@@ -458,7 +457,7 @@ client.on("a", async (msg) => {
     };
     say(`Your rank is: ${rankNames[rank]}`);
   }
-  if (cmd === `${prefix}play`) {
+  if (rank >= 1 && cmd === `${prefix}play`) {
     if (player.isPlaying()) {
       return say("MIDI is currently playing!");
     }
